@@ -88,6 +88,7 @@ int download()
 	}
 }
 
+
 int countWords() {
 	string line;
 	int words = 0;
@@ -214,6 +215,7 @@ int stats1()
 	fclose(stdout);
 	return 0;
 }
+
 
 int main()
 {

@@ -102,6 +102,46 @@ int countWords() {
 }
 
 
+class RedirectStdOutput {
+public:
+	RedirectStdOutput(std::ofstream& file)
+		: _psbuf{ file.rdbuf() }, _backup{ std::cout.rdbuf() }
+	{
+		std::cout.rdbuf(_psbuf);
+	}
+
+	~RedirectStdOutput() {
+		std::cout.rdbuf(_backup);
+	}
+
+private:
+	std::streambuf* _psbuf;
+	std::streambuf* _backup;
+};
+
+
+int letterslist()
+{
+	char letter;
+
+	cout << "Letter\t\tHow many times" << endl;
+
+	for (letter = 'a'; letter <= 'z'; letter++)
+	{
+
+		cout << letter << "\t\t" << countChars(letter) << " times" << endl;
+	}
+	for (letter = 'A'; letter <= 'Z'; letter++)
+	{
+		cout << letter << "\t\t" << countChars(letter) << " times" << endl;
+	}
+
+
+
+
+	return EXIT_SUCCESS;
+}
+
 int zdania() {
 	const int n = 4;
 	int countx = 0;
@@ -142,6 +182,30 @@ int znaki() {
 	return 0;
 }
 
+int countChars(char letter)
+{
+	{
+		ifstream stream;
+		char character;
+		int count = 0;
+
+		stream.open("test.txt");
+		stream.get(character);
+
+		while (!stream.fail())
+		{
+			if (character == letter)
+				count++;
+			stream.get(character);
+		}
+		stream.close();
+
+		return count;
+	}
+}
+
+
+
 int main()
 {
 	int choice;
@@ -174,11 +238,12 @@ int main()
 		case 4:
 			znaki();
 			break;
+
 		case 5:
 			zdania();
 			break;
 		case 6:
-			//letterslist();
+			letterslist();
 			break;
 		case 7:
 			//stats1();;

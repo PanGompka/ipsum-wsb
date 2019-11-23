@@ -88,7 +88,6 @@ int download()
 	}
 }
 
-
 int countWords() {
 	string line;
 	int words = 0;
@@ -104,6 +103,25 @@ int countWords() {
 
 
 
+
+int znaki() {
+	const int n = 4;
+	int count = 0;
+	char chars[n] = { '.', ',', '?', '!' };
+	ifstream myfile("test.txt");
+	char c;
+	while (!myfile.eof()) {
+		myfile >> c;
+		for (int i = 0; i < n; i++) {
+			if (c == chars[i]) {
+				count++;
+			}
+		}
+	}
+	myfile.close();
+	cout << "Ilosc zdan:" << count - 1 << endl;
+	return 0;
+}
 
 
 int main()
@@ -136,7 +154,7 @@ int main()
 			countWords();
 			break;
 		case 4:
-			//znaki();
+			znaki();
 			break;
 
 		case 5:

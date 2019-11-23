@@ -204,7 +204,16 @@ int countChars(char letter)
 	}
 }
 
+int stats1()
+{
 
+	freopen("statystyki.txt", "w", stdout);
+	sumofletters();
+	zdania();
+	znaki();
+	fclose(stdout);
+	return 0;
+}
 
 int main()
 {
@@ -246,7 +255,7 @@ int main()
 			letterslist();
 			break;
 		case 7:
-			//stats1();;
+			stats1();;
 			break;
 		case 8:
 			cout << "Goodbye!";

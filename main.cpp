@@ -102,7 +102,118 @@ int countWords() {
 }
 
 
+class RedirectStdOutput {
+public:
+	RedirectStdOutput(std::ofstream& file)
+		: _psbuf{ file.rdbuf() }, _backup{ std::cout.rdbuf() }
+	{
+		std::cout.rdbuf(_psbuf);
+	}
 
+	~RedirectStdOutput() {
+		std::cout.rdbuf(_backup);
+	}
+
+private:
+	std::streambuf* _psbuf;
+	std::streambuf* _backup;
+};
+
+
+int letterslist()
+{
+	char letter;
+
+	cout << "Letter\t\tHow many times" << endl;
+
+	for (letter = 'a'; letter <= 'z'; letter++)
+	{
+
+		cout << letter << "\t\t" << countChars(letter) << " times" << endl;
+	}
+	for (letter = 'A'; letter <= 'Z'; letter++)
+	{
+		cout << letter << "\t\t" << countChars(letter) << " times" << endl;
+	}
+
+
+
+
+	return EXIT_SUCCESS;
+}
+
+int zdania() {
+	const int n = 4;
+	int countx = 0;
+	char chars[n] = { '.', ',', '?', '!' };
+
+	ifstream myfile("test.txt");
+	char c;
+	while (!myfile.eof()) {
+		myfile >> c;
+		for (int i = 0; i < n; i++) {
+			if (c == chars[i]) {
+				countx++;
+			}
+		}
+	}
+	myfile.close();
+	cout << "Ilosc znakow interpunkcyjnych" << countx - 1 << endl;
+	return 0;
+}
+
+
+int znaki() {
+	const int n = 4;
+	int count = 0;
+	char chars[n] = { '.', ',', '?', '!' };
+	ifstream myfile("test.txt");
+	char c;
+	while (!myfile.eof()) {
+		myfile >> c;
+		for (int i = 0; i < n; i++) {
+			if (c == chars[i]) {
+				count++;
+			}
+		}
+	}
+	myfile.close();
+	cout << "Ilosc zdan:" << count - 1 << endl;
+	return 0;
+}
+
+int countChars(char letter)
+{
+	{
+		ifstream stream;
+		char character;
+		int count = 0;
+
+		stream.open("test.txt");
+		stream.get(character);
+
+		while (!stream.fail())
+		{
+			if (character == letter)
+				count++;
+			stream.get(character);
+		}
+		stream.close();
+
+		return count;
+	}
+}
+
+int stats1()
+{
+
+	freopen("statystyki.txt", "w", stdout);
+	sumofletters();
+	zdania();
+	znaki();
+	fclose(stdout);
+	return 0;
+}
 
 int main()
 {
@@ -134,20 +245,29 @@ int main()
 			countWords();
 			break;
 		case 4:
-			//znaki();
+			znaki();
 			break;
 
 		case 5:
-			//zdania();
+			zdania();
 			break;
 		case 6:
-			//letterslist();
+			letterslist();
 			break;
 		case 7:
-			//stats1();;
+			stats1();;
 			break;
 		case 8:
 			cout << "Goodbye!";
+			if (remove("test.txt") != 0)
+				perror("Error deleting file");
+			else
+				puts("File successfully deleted");
+			
+			if (remove("statystyki.txt") != 0)
+				perror("Error deleting file");
+			else
+				puts("File successfully deleted");
 			return 0;
 		default:
 			cout << "Menu\n";

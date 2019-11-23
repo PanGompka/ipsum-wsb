@@ -88,7 +88,6 @@ int download()
 	}
 }
 
-
 int countWords() {
 	string line;
 	int words = 0;
@@ -205,6 +204,7 @@ int countChars(char letter)
 	}
 }
 
+
 int stats1()
 {
 
@@ -216,6 +216,18 @@ int stats1()
 	return 0;
 }
 
+
+int stats1()
+{
+
+
+	freopen("statystyki.txt", "w", stdout);
+	sumofletters();
+	zdania();
+	znaki();
+	fclose(stdout);
+	return 0;
+}
 
 int main()
 {

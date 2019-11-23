@@ -13,6 +13,40 @@
 
 using namespace std;
 
+int download()
+{
+	char adres[] = "https://s3.zylowski.net/public/input/7.txt";
+	char destination[] = "test.txt";
+	char buffer[512];
+	HRESULT dl;
+
+	typedef HRESULT(WINAPI* URLDownloadToFileA_t)(LPUNKNOWN pCaller, LPCSTR szURL, LPCSTR szFileName, DWORD dwReserved, void* lpfnCB);
+	URLDownloadToFileA_t xURLDownloadToFileA;
+	xURLDownloadToFileA = (URLDownloadToFileA_t)GetProcAddress(LoadLibraryA("urlmon"), "URLDownloadToFileA");
+
+	dl = xURLDownloadToFileA(NULL, adres, destination, 0, NULL);
+
+	sprintf(buffer, "Downloading File From: %s, To: %s", adres, destination);
+
+	if (dl == S_OK)
+	{
+		sprintf(buffer, "File Successfully Downloaded To: %s", destination);
+		printf(buffer);
+	}
+	else if (dl == E_OUTOFMEMORY)
+	{
+		sprintf(buffer, "Failed To Download File Reason: Insufficient Memory");
+		printf(buffer);
+		return 0;
+	}
+	else
+	{
+		sprintf(buffer, "Failed To Download File Reason: Unknown");
+		printf(buffer);
+		return 0;
+	}
+}
+
 int main()
 {
 	int choice;
@@ -33,7 +67,8 @@ int main()
 
 		switch (choice) {
 		case 1:
-			//download();
+
+			download();
 			break;
 		case 2:
 			//sumofletters();

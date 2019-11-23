@@ -102,6 +102,25 @@ int countWords() {
 }
 
 
+int zdania() {
+	const int n = 4;
+	int countx = 0;
+	char chars[n] = { '.', ',', '?', '!' };
+
+	ifstream myfile("test.txt");
+	char c;
+	while (!myfile.eof()) {
+		myfile >> c;
+		for (int i = 0; i < n; i++) {
+			if (c == chars[i]) {
+				countx++;
+			}
+		}
+	}
+	myfile.close();
+	cout << "Ilosc znakow interpunkcyjnych" << countx - 1 << endl;
+	return 0;
+}
 
 
 int znaki() {
@@ -122,7 +141,6 @@ int znaki() {
 	cout << "Ilosc zdan:" << count - 1 << endl;
 	return 0;
 }
-
 
 int main()
 {
@@ -156,9 +174,8 @@ int main()
 		case 4:
 			znaki();
 			break;
-
 		case 5:
-			//zdania();
+			zdania();
 			break;
 		case 6:
 			//letterslist();

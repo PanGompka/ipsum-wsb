@@ -89,6 +89,23 @@ int download()
 }
 
 
+int countWords() {
+	string line;
+	int words = 0;
+	string word;
+	ifstream myfile("test.txt");
+	while (myfile >> word) {
+		++words;
+	}
+	cout << words << "\n";
+
+	return 0;
+}
+
+
+
+
+
 int main()
 {
 	int choice;
@@ -116,7 +133,7 @@ int main()
 			sumofletters();
 			break;
 		case 3:
-			//countWords();
+			countWords();
 			break;
 		case 4:
 			//znaki();

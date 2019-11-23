@@ -204,8 +204,22 @@ int countChars(char letter)
 	}
 }
 
+
 int stats1()
 {
+
+	freopen("statystyki.txt", "w", stdout);
+	sumofletters();
+	zdania();
+	znaki();
+	fclose(stdout);
+	return 0;
+}
+
+
+int stats1()
+{
+
 
 	freopen("statystyki.txt", "w", stdout);
 	sumofletters();
@@ -259,6 +273,15 @@ int main()
 			break;
 		case 8:
 			cout << "Goodbye!";
+			if (remove("test.txt") != 0)
+				perror("Error deleting file");
+			else
+				puts("File successfully deleted");
+			
+			if (remove("statystyki.txt") != 0)
+				perror("Error deleting file");
+			else
+				puts("File successfully deleted");
 			return 0;
 		default:
 			cout << "Menu\n";

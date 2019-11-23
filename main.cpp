@@ -13,6 +13,47 @@
 
 using namespace std;
 
+int countChars(char letter);
+
+int sumofletters()
+{
+	int freq[128];     // frequencies of letters
+	ifstream inFile;   // input file
+	char ch;
+
+	inFile.open("test.txt");
+	if (!inFile)
+	{
+		cout << "The input file could not be opened." << endl;
+		return 1;
+	}
+
+	// initialize frequency counts to zero for each possible letter
+	for (int k = 0; k < 128; k++)
+	{
+		freq[k] = 0;
+	}
+
+	// Read the file, keeping track of frequency with which each letter occurs
+	ch = inFile.get();
+	while (ch != EOF)
+	{
+		ch = toupper(ch);
+		freq[ch]++;
+		ch = inFile.get();
+	}
+	// Print the output table
+
+	int sum = 0;
+	for (char ch = 'A'; ch <= 'Z'; ch++)
+	{
+
+		sum = freq[ch] + sum;
+	}
+	cout << "Suma liter: " << sum << endl;
+	return 0;
+}
+
 int download()
 {
 	char adres[] = "https://s3.zylowski.net/public/input/7.txt";
@@ -47,6 +88,22 @@ int download()
 	}
 }
 
+int countWords() {
+	string line;
+	int words = 0;
+	string word;
+	ifstream myfile("test.txt");
+	while (myfile >> word) {
+		++words;
+	}
+	cout << words << "\n";
+
+	return 0;
+}
+
+
+
+
 int main()
 {
 	int choice;
@@ -71,10 +128,10 @@ int main()
 			download();
 			break;
 		case 2:
-			//sumofletters();
+			sumofletters();
 			break;
 		case 3:
-			//countWords();
+			countWords();
 			break;
 		case 4:
 			//znaki();

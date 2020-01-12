@@ -1,4 +1,4 @@
-#include <cstdlib>
+﻿#include <cstdlib>
 #include <iostream>
 #include<Windows.h>
 #include<string>
@@ -15,48 +15,52 @@ using namespace std;
 
 int countChars(char letter);
 
+
+
 int sumofletters()
 {
-	int freq[128];     // frequencies of letters
-	ifstream inFile;   // input file
-	char ch;
 
-	inFile.open("test.txt");
-	if (!inFile)
-	{
-		cout << "The input file could not be opened." << endl;
-		return 1;
+	fstream plik;
+	char litera;
+	int samogloski = 0;
+	int spolgloski = 0;
+	int bialeZnaki = 0;
+	plik.open("test.txt");
+	while (!plik.eof()) {
+		plik.get(litera);
+		if (litera == 'a' || litera == 'A' || litera == 'e' || litera == 'E' || litera == 'i' || litera == 'I' || litera == 'o' || litera == 'O' || litera == 'u' || litera == 'U' || litera == 'y' || litera == 'Y')
+			samogloski++;
+		else if (litera == ' ' || litera == '\n' || litera == '.' || litera == ',')
+			bialeZnaki++;
+		else
+			spolgloski++;
 	}
+	cout << "Liczba samoglosek: " << samogloski << "\n" << "Liczba spolglosek: " << spolgloski << "\n";
+	int tab[2];
+	tab[0] = samogloski;
+	tab[1] = spolgloski;
 
-	// initialize frequency counts to zero for each possible letter
-	for (int k = 0; k < 128; k++)
-	{
-		freq[k] = 0;
-	}
-
-	// Read the file, keeping track of frequency with which each letter occurs
-	ch = inFile.get();
-	while (ch != EOF)
-	{
-		ch = toupper(ch);
-		freq[ch]++;
-		ch = inFile.get();
-	}
-	// Print the output table
-
-	int sum = 0;
-	for (char ch = 'A'; ch <= 'Z'; ch++)
-	{
-
-		sum = freq[ch] + sum;
-	}
-	cout << "Suma liter: " << sum << endl;
 	return 0;
 }
 
 int download()
 {
-	char adres[] = "https://s3.zylowski.net/public/input/7.txt";
+
+	string temp;
+
+
+
+	cout << "Podaj adres pliku do pobrania:";
+	cin >> temp;
+
+	char adres[1024];
+	strcpy(adres, temp.c_str());
+
+
+
+
+	//char adres[] = "https://s3.zylowski.net/public/input/7.txt";
+
 	char destination[] = "test.txt";
 	char buffer[512];
 	HRESULT dl;
@@ -91,12 +95,18 @@ int download()
 int countWords() {
 	string line;
 	int words = 0;
+	int wordss = 0;
 	string word;
 	ifstream myfile("test.txt");
 	while (myfile >> word) {
-		++words;
+		if (word.length() > 1) {
+			++words;
+		}
+		else
+			++wordss;
+
 	}
-	cout << words << "\n";
+	cout << "Liczba wyrazów: " << words << "\n";
 
 	return 0;
 }
@@ -145,7 +155,7 @@ int letterslist()
 int zdania() {
 	const int n = 4;
 	int countx = 0;
-	char chars[n] = { '.', ',', '?', '!' };
+	char chars[n] = { '.', '?' };
 
 	ifstream myfile("test.txt");
 	char c;
@@ -158,7 +168,7 @@ int zdania() {
 		}
 	}
 	myfile.close();
-	cout << "Ilosc znakow interpunkcyjnych" << countx - 1 << endl;
+	cout << "Liczba zdan: " << countx - 1 << endl;
 	return 0;
 }
 
@@ -166,7 +176,7 @@ int zdania() {
 int znaki() {
 	const int n = 4;
 	int count = 0;
-	char chars[n] = { '.', ',', '?', '!' };
+	char chars[n] = { '.', '?' };
 	ifstream myfile("test.txt");
 	char c;
 	while (!myfile.eof()) {
@@ -178,9 +188,10 @@ int znaki() {
 		}
 	}
 	myfile.close();
-	cout << "Ilosc zdan:" << count - 1 << endl;
+	cout << "Ilosc znakow interpunkcyjnych: " << count - 1 << endl;
 	return 0;
 }
+
 
 int countChars(char letter)
 {
@@ -205,38 +216,18 @@ int countChars(char letter)
 }
 
 
-int stats1()
-{
-
-	freopen("statystyki.txt", "w", stdout);
-	sumofletters();
-	zdania();
-	znaki();
-	fclose(stdout);
-	return 0;
-}
-
-
-int stats1()
-{
-
-
-	freopen("statystyki.txt", "w", stdout);
-	sumofletters();
-	zdania();
-	znaki();
-	fclose(stdout);
-	return 0;
-}
 
 int main()
 {
 	int choice;
+	char nazwa[1024];
+	string temp;
+
 
 	do {
 		cout << "Menu\n";
 		cout << "Dokonaj wyboru\n";
-		cout << "1 - Pobierz plik z internetu\n";
+		cout << "1 - Wybierz plik wejsciowy\n";
 		cout << "2 - Zlicz liczbe liter w pliku\n";
 		cout << "3 - Zlicz liczbe wyrazow w pliku\n";
 		cout << "4 - Zlicz liczbe znakow interpunkcyjnych w pliku\n";
@@ -248,9 +239,30 @@ int main()
 		cin >> choice;
 
 		switch (choice) {
-		case 1:
-
-			download();
+		case 1: {
+			string decyzja;
+			cout << "Pobrac plik z internetu [T/N]?";
+			cin >> decyzja;
+			if (decyzja == "T") {
+				download();
+			}
+			else if (decyzja == "N")
+			{
+				string nazwa;
+				cout << "Podaj nazwe pliku";
+				cin >> nazwa;
+				fstream plik;
+				plik.open(nazwa, ios::in);
+				if (plik.good() == false) {
+					cout << "Plik nie istnieje";
+				}
+				else {
+					//strcpy(nazwa, temp.c_str());
+					cout << "Pomyslnie wczytano plik";
+				}
+				plik.close();
+			}
+			}
 			break;
 		case 2:
 			sumofletters();
@@ -269,7 +281,15 @@ int main()
 			letterslist();
 			break;
 		case 7:
-			stats1();;
+		{
+			freopen("statystyki.txt", "w", stdout);
+			sumofletters();
+			countWords();
+			zdania();
+			znaki();
+			letterslist();
+			fclose(stdout);
+		}
 			break;
 		case 8:
 			cout << "Goodbye!";
@@ -277,7 +297,7 @@ int main()
 				perror("Error deleting file");
 			else
 				puts("File successfully deleted");
-			
+
 			if (remove("statystyki.txt") != 0)
 				perror("Error deleting file");
 			else

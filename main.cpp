@@ -39,7 +39,7 @@ int sumofletters()
 	int tab[2];
 	tab[0] = samogloski;
 	tab[1] = spolgloski;
-	
+
 	return 0;
 }
 
@@ -214,9 +214,6 @@ int countChars(char letter)
 		return count;
 	}
 }
-
-
-
 
 
 

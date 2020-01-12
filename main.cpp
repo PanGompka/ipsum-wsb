@@ -14,7 +14,7 @@
 
 using namespace std;   
 
-int countChars(char letter);
+int countChars(char letter);  
 
 
 
